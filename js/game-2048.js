@@ -213,6 +213,7 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
         }
         if (this.boardHasChanged ){
           this._generateTile();
+          this._isGameLost();
           this.boardHasChanged = false;
         }
       };
@@ -225,6 +226,43 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
         }
       };
 
-      // Game2048.prototype._isGameLost = function () { 
-      //   this.hasLost = true;
-      // };
+      Game2048.prototype._isGameLost = function () {
+        if(this._getAvailablePosition() !== null) {
+          return;
+        }
+
+        var theGame = this;
+
+        this.board.forEach(function (row, rowIndex) {
+          row.forEach(function (row, rowIndex) {
+            var current = theGame.board[rowIndex][colIndex];
+            var top, bottom, left, right;
+
+               if (theGame.board[rowIndex][colIndex - 1]) {
+                 left  = that.board[rowIndex][colIndex - 1];
+               }
+               if (theGame.board[rowIndex][colIndex + 1]) {
+                 right = that.board[rowIndex][colIndex + 1];
+               }
+               if (theGame.board[rowIndex - 1]) {
+                 top    = that.board[rowIndex - 1][colIndex];
+               }
+               if (theGame.board[rowIndex + 1]) {
+                 bottom = that.board[rowIndex + 1][colIndex];
+               }
+              if (current === top || current === bottom || current === left || current === right) {
+                theGame.hasLost = true;
+             }
+          });
+        });
+      };
+
+      Game2048.prototype._shhh= function () {
+        theGame.hasWon = true;
+      };
+
+      $(document).on("keypress", function (e) {
+        Game2048.prototype._shhh= function () {
+          theGame.hasWon = true;
+        };
+  });
