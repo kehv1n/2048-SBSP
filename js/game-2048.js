@@ -256,13 +256,3 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
           });
         });
       };
-
-      Game2048.prototype._shhh= function () {
-        theGame.hasWon = true;
-      };
-
-      $(document).on("keypress", function (e) {
-        Game2048.prototype._shhh= function () {
-          theGame.hasWon = true;
-        };
-  });
