@@ -68,7 +68,7 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
     });
   };
 
-  Game2048.prototype.moveLeft = function() {
+  Game2048.prototype.moveLeft = function() { /// MOVE LEFT
     var updatedBoard = [];
 
 
@@ -83,7 +83,7 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
         });
 
         //2. Merge tiles that are together & the same number
-        for(var i = 0; i < newRow.length; i += 1) {
+        for(var i = 0; i < newRow.length; i += 1) { // INCREMENTAL LOOP
             if(newRow[i] === newRow[i+1]) {
               newRow[i] *= 2;
               newRow[i+1] = null;
@@ -108,3 +108,44 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
       });
       this.board = updatedBoard;
     };
+
+    Game2048.prototype.moveRight = function() { /// MOVE Right
+      var updatedBoard = [];
+
+
+      this.board.forEach(function(row){
+          //1. Remove Empties from row
+          var newRow = [];
+
+          row.forEach(function (cell){
+            if (cell !== null) {
+              newRow.push(cell);
+            }
+          });
+
+          //2. Merge tiles that are together & the same number
+          for(var i = (newRow.length - 1); i >= 0 ; i -= 1) { //Decremental Loop
+              if(newRow[i] === newRow[i-1]) {
+                newRow[i] *= 2;
+                newRow[i-1] = null;
+              }
+          }
+          //3. Remvoe new empties in the middle
+          // e.g [8,8,4]->[16,null,4]
+          var moved = [];
+
+          newRow.forEach(function (cell){
+            if (cell !== null) {
+              moved.push(cell); //[16,null,4] -> [16,4] Removing Nulls
+            }
+          });
+
+
+          //4. If row has 4, don't do anything
+          while (moved.length < 4) {
+            moved.unshift(null); // PUTS nulls in the front instead of the back w unshift
+          }
+          updatedBoard.push(moved);
+        });
+        this.board = updatedBoard;
+      };
