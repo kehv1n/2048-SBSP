@@ -149,3 +149,27 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
         });
         this.board = updatedBoard;
       };
+
+      Game2048.prototype._transposeMatrix = function () {
+  for (var row = 0; row < this.board.length; row++) {
+    for (var column = row+1; column < this.board.length; column++) {
+      var temp = this.board[row][column];
+      this.board[row][column] = this.board[column][row];
+      this.board[column][row] = temp;
+    }
+  }
+};
+
+      Game2048.prototype.moveUp = function () {
+        this._transposeMatrix();
+        this.moveLeft();
+        this._transposeMatrix();
+
+      };
+
+      Game2048.prototype.moveDown = function () {
+        this._transposeMatrix();
+        this.moveRight();
+        this._transposeMatrix();
+
+      };
