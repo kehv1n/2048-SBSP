@@ -14,6 +14,7 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
 ];
   this.hasWon = false; // Easier to check to see if these Booleans are true
   this.hasLost = false; // Or false
+  this.boardHasChanged = false;
 
   this._generateTile();
   this._generateTile();
@@ -66,10 +67,12 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
     this.board.forEach(function(row) {
       console.log(row);
     });
+    console.log('current Score: ' + this.score + ' great job!');
   };
 
   Game2048.prototype.moveLeft = function() { /// MOVE LEFT
     var updatedBoard = [];
+    var theGame = this;
 
 
     this.board.forEach(function(row){
@@ -87,6 +90,8 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
             if(newRow[i] === newRow[i+1]) {
               newRow[i] *= 2;
               newRow[i+1] = null;
+
+              theGame._updateScore(newRow[i]);
             }
         }
         //3. Remvoe new empties in the middle
@@ -98,6 +103,10 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
             moved.push(cell); //[16,null,4] -> [16,4] Removig Nulls
           }
         });
+
+        if (moved.length !== row.length){
+          theGame.boardHasChanged = true;
+        }
 
 
         //4. If row has 4, don't do anything
@@ -111,6 +120,7 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
 
     Game2048.prototype.moveRight = function() { /// MOVE Right
       var updatedBoard = [];
+      var theGame = this;
 
 
       this.board.forEach(function(row){
@@ -128,6 +138,7 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
               if(newRow[i] === newRow[i-1]) {
                 newRow[i] *= 2;
                 newRow[i-1] = null;
+                theGame._updateScore(newRow[i]);
               }
           }
           //3. Remvoe new empties in the middle
@@ -140,11 +151,16 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
             }
           });
 
+          if (moved.length !== row.length){
+            theGame.boardHasChanged = true;
+          }
+
 
           //4. If row has 4, don't do anything
           while (moved.length < 4) {
             moved.unshift(null); // PUTS nulls in the front instead of the back w unshift
           }
+
           updatedBoard.push(moved);
         });
         this.board = updatedBoard;
@@ -173,3 +189,42 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
         this._transposeMatrix();
 
       };
+
+
+      Game2048.prototype.move = function (direction){
+        if (this.hasWon || this.hasLost) {
+          return;
+        }
+
+        switch (direction) {
+          case 'up':
+          this.moveUp();
+            break;
+            case 'down':
+            this.moveDown();
+            break;
+            case 'left':
+            this.moveLeft();
+            break;
+            case 'right':
+            this.moveRight();
+            break;
+
+        }
+        if (this.boardHasChanged ){
+          this._generateTile();
+          this.boardHasChanged = false;
+        }
+      };
+
+      Game2048.prototype._updateScore = function (points) {
+        this.score += points;
+
+        if (points === 2048 ) {
+          this.hasWon = true;
+        }
+      };
+
+      // Game2048.prototype._isGameLost = function () { 
+      //   this.hasLost = true;
+      // };
