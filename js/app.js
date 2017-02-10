@@ -85,7 +85,7 @@ function checkIfDone () {
     $('body').append(winnerHTML);
   } else if (myGlobalGame.hasLost) {
     $('#game-board').remove();
-    var loserHTML = '<img src= "https://media.giphy.com/media/LSk5aGh2WYL6g/giphy.gif" alt = "loser">';
+    var loserHTML = '<img src= "https://media.giphy.com/media/BpXaE6d32x344/giphy.gif" alt = "loser">';
     ion.sound.play('loser');
     $('body').append(loserHTML);
   }
