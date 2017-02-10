@@ -94,7 +94,7 @@ function checkIfDone () {
 function loadSounds () {
   ion.sound ({
     sounds: [{name: 'goofygoober'}, {name: 'loser'}],
-    path: '../lib/ion-sound/sounds/',
+    path: 'lib/ion-sound/sounds/',
     preload: true,
     volume: 1.0
   });
