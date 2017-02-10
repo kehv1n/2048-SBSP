@@ -234,21 +234,21 @@ function Game2048 (name) {  //pass in name bc every game will have a new player
         var theGame = this;
 
         this.board.forEach(function (row, rowIndex) {
-          row.forEach(function (row, rowIndex) {
+          row.forEach(function (row, colIndex) {
             var current = theGame.board[rowIndex][colIndex];
             var top, bottom, left, right;
 
                if (theGame.board[rowIndex][colIndex - 1]) {
-                 left  = that.board[rowIndex][colIndex - 1];
+                 left  = theGame.board[rowIndex][colIndex - 1];
                }
                if (theGame.board[rowIndex][colIndex + 1]) {
-                 right = that.board[rowIndex][colIndex + 1];
+                 right = theGame.board[rowIndex][colIndex + 1];
                }
                if (theGame.board[rowIndex - 1]) {
-                 top    = that.board[rowIndex - 1][colIndex];
+                 top    = theGame.board[rowIndex - 1][colIndex];
                }
                if (theGame.board[rowIndex + 1]) {
-                 bottom = that.board[rowIndex + 1][colIndex];
+                 bottom = theGame.board[rowIndex + 1][colIndex];
                }
               if (current === top || current === bottom || current === left || current === right) {
                 theGame.hasLost = true;

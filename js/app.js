@@ -8,9 +8,10 @@ $(document).ready(function(){
 //2. take the inital tiles and put them on the screen
 
 renderTiles();
+loadSounds();
 
 $(document).keydown(function (ev){
-  var acceptableKeys = [37,65,38,67,39,68,40,40,83, 87];
+  var acceptableKeys = [37,65,38,67,39,68,40,40,83, 87,27];
   if (!acceptableKeys.includes(ev.keyCode)) {
     return;
   }
@@ -38,6 +39,8 @@ $(document).keydown(function (ev){
       break;
   }
   renderTiles();
+  updateScore();
+  checkIfDone();
 });
 
 
@@ -67,5 +70,32 @@ function renderTiles() {
       $('#tile-container').append(tileHTML);
 
     });
+  });
+}
+
+function updateScore() {
+  $('#score').html(myGlobalGame.score);
+}
+
+function checkIfDone () {
+  if(myGlobalGame.hasWon) {
+    $('#game-board').remove();
+    var winnerHTML = '<img src="https://media.giphy.com/media/ya3hdxTPypMBi/giphy.gif" alt = "winner">';
+    ion.sound.play('goofygoober');
+    $('body').append(winnerHTML);
+  } else if (myGlobalGame.hasLost) {
+    $('#game-board').remove();
+    var loserHTML = '<img src= "https://media.giphy.com/media/LSk5aGh2WYL6g/giphy.gif" alt = "loser">';
+    ion.sound.play('loser');
+    $('body').append(loserHTML);
+  }
+}
+
+function loadSounds () {
+  ion.sound ({
+    sounds: [{name: 'goofygoober'}, {name: 'loser'}],
+    path: '../lib/ion-sound/sounds/',
+    preload: true,
+    volume: 1.0
   });
 }

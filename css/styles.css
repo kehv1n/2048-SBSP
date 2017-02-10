@@ -102,3 +102,9 @@ h1 {
 .tile.val-512  { background: #000F35; }
 .tile.val-1024 { background: #000921; font-size: 50px; padding-top: 35px; }
 .tile.val-2048 { background: #009894; font-size: 50px; padding-top: 35px; }
+
+img {
+  width: 100%
+  height: auto;
+  margin: auto 0;
+}
